@@ -31,7 +31,7 @@
             tools:text="현재위치" />
     </androidx.appcompat.widget.Toolbar>
 
-    <TableLayout
+    <com.google.android.material.tabs.TabLayout
         android:id="@+id/tabLayout"
         android:layout_width="0dp"
         android:layout_height="40dp"
@@ -114,6 +114,7 @@
     </HorizontalScrollView>
 
     <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/viewPager"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"

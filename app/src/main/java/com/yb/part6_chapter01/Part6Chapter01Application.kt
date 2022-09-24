@@ -3,7 +3,10 @@ package com.yb.part6_chapter01
 import android.app.Application
 import android.content.Context
 import com.yb.part6_chapter01.di.appModule
+import org.koin.android.ext.koin.androidContext
+import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
+import org.koin.core.logger.Level
 
 class Part6Chapter01Application : Application() {
 
@@ -12,6 +15,8 @@ class Part6Chapter01Application : Application() {
         appContext = this
 
         startKoin {
+            androidLogger(Level.ERROR)
+            androidContext(this@Part6Chapter01Application)
             modules(appModule)
         }
     }
