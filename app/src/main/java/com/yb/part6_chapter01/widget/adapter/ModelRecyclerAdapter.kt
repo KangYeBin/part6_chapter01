@@ -36,7 +36,7 @@ class ModelRecyclerAdapter<M : Model, VM : BaseViewModel>(
         }
     }
 
-    override fun submitList(list: MutableList<Model>?) {
+    override fun submitList(list: List<Model>?) {
         list?.let { modelList = it }
         super.submitList(list)
     }
