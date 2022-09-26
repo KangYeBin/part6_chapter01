@@ -2,14 +2,11 @@ package com.yb.part6_chapter01.screen.main.home.restaurant
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.yb.part6_chapter01.data.entity.RestaurantEntity
-import com.yb.part6_chapter01.data.repository.RestaurantRepository
-import com.yb.part6_chapter01.model.CellType
+import com.yb.part6_chapter01.data.repository.restaurant.RestaurantRepository
 import com.yb.part6_chapter01.model.restaurant.RestaurantModel
 import com.yb.part6_chapter01.screen.base.BaseViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
-import kotlin.reflect.typeOf
 
 class RestaurantListViewModel(
     private val restaurantCategory: RestaurantCategory,
