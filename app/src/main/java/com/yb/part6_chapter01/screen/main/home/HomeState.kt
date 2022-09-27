@@ -11,6 +11,7 @@ sealed class HomeState {
 
     data class Success(
         val mapSearchInfo: MapSearchInfoEntity,
+        val isLocationSame: Boolean
     ) : HomeState()
 
     data class Error(
