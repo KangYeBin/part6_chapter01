@@ -7,13 +7,13 @@
     </style>
 
     <style name="Widget.Part6chapter01.Toolbar.WithArrow" parent="Widget.Part6chapter01.Toolbar">
-        <item name="android:title">@null</item>
-        <item name="android:navigationIcon">@drawable/ic_back_arrow_24</item>
+        <item name="android:background">@color/white</item>
+        <item name="navigationIcon">@drawable/ic_back_arrow_24</item>
     </style>
 
     <style name="Widget.Part6chapter01.Toolbar.WithClose" parent="Widget.Part6chapter01.Toolbar">
-        <item name="android:title">@null</item>
-        <item name="android:navigationIcon">@drawable/ic_close_24</item>
+        <item name="android:background">@color/white</item>
+        <item name="navigationIcon">@drawable/ic_close_24</item>
     </style>
 
     <style name="Widget.Part6chapter01.Chip" parent="Widget.MaterialComponents.Chip.Choice">

@@ -1,5 +1,6 @@
 package com.yb.part6_chapter01.di
 
+import com.yb.part6_chapter01.data.entity.MapSearchInfoEntity
 import com.yb.part6_chapter01.data.repository.map.DefaultMapRepository
 import com.yb.part6_chapter01.data.repository.map.MapRepository
 import com.yb.part6_chapter01.data.repository.restaurant.DefaultRestaurantRepository
@@ -8,6 +9,7 @@ import com.yb.part6_chapter01.screen.main.home.HomeViewModel
 import com.yb.part6_chapter01.screen.main.home.restaurant.RestaurantCategory
 import com.yb.part6_chapter01.screen.main.home.restaurant.RestaurantListViewModel
 import com.yb.part6_chapter01.screen.main.my.MyViewModel
+import com.yb.part6_chapter01.screen.mylocation.MyLocationViewModel
 import com.yb.part6_chapter01.util.provider.DefaultResourcesProvider
 import com.yb.part6_chapter01.util.provider.ResourcesProvider
 import kotlinx.coroutines.Dispatchers
@@ -20,6 +22,7 @@ val appModule = module {
     viewModel { HomeViewModel(get()) }
     viewModel { MyViewModel() }
     viewModel { (restaurantCategory: RestaurantCategory) -> RestaurantListViewModel(restaurantCategory, get()) }
+    viewModel { (mapSearchInfoEntity: MapSearchInfoEntity) -> MyLocationViewModel(mapSearchInfoEntity, get()) }
 
     single<RestaurantRepository> { DefaultRestaurantRepository(get(), get()) }
     single<MapRepository> {DefaultMapRepository(get(), get())}

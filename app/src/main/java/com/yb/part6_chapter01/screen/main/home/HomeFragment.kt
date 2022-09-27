@@ -2,23 +2,26 @@ package com.yb.part6_chapter01.screen.main.home
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Context
 import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
+import android.os.Build
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.view.isGone
-import androidx.core.view.isVisible
+import androidx.annotation.RequiresApi
 import com.google.android.material.tabs.TabLayoutMediator
 import com.yb.part6_chapter01.R
 import com.yb.part6_chapter01.data.entity.LocationLatLngEntity
+import com.yb.part6_chapter01.data.entity.MapSearchInfoEntity
 import com.yb.part6_chapter01.databinding.FragmentHomeBinding
 import com.yb.part6_chapter01.extensions.toGone
 import com.yb.part6_chapter01.extensions.toVisible
 import com.yb.part6_chapter01.screen.base.BaseFragment
 import com.yb.part6_chapter01.screen.main.home.restaurant.RestaurantCategory
 import com.yb.part6_chapter01.screen.main.home.restaurant.RestaurantListFragment
+import com.yb.part6_chapter01.screen.mylocation.MyLocationActivity
 import com.yb.part6_chapter01.widget.adapter.RestaurantListFragmentPagerAdapter
 import org.koin.android.viewmodel.ext.android.viewModel
 
@@ -33,6 +36,16 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>() {
     private lateinit var locationManager: LocationManager
 
     private lateinit var myLocationListener: LocationListener
+
+    private val changeLocationLauncher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                result.data?.getParcelableExtra<MapSearchInfoEntity>(HomeViewModel.MY_LOCATION_KEY)
+                    ?.let { mapSearchInfo ->
+                        viewModel.loadReverseGeoInformation(mapSearchInfo.locationLatLng)
+                    }
+            }
+        }
 
     private val locationPermissionLauncher =
         registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissions ->
@@ -54,6 +67,16 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>() {
                     Toast.LENGTH_SHORT).show()
             }
         }
+
+    override fun initViews() = with(binding) {
+        locationTextView.setOnClickListener {
+            viewModel.getMapSearchInfo()?.let { mapSearchInfo ->
+                changeLocationLauncher.launch(
+                    MyLocationActivity.newIntent(requireContext(), mapSearchInfo)
+                )
+            }
+        }
+    }
 
     private fun initViewPager(locationLatLng: LocationLatLngEntity) = with(binding) {
         val restaurantCategories = RestaurantCategory.values()
