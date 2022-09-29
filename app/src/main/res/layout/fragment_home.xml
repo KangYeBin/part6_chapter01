@@ -65,10 +65,11 @@
         tools:visibility="visible">
 
         <com.google.android.material.chip.ChipGroup
-            android:id="@+id/filterChipGroup"
+            android:id="@+id/orderChipGroup"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingHorizontal="12dp"
+            android:visibility="gone"
             app:checkedChip="@id/chipDefault"
             app:chipSpacingHorizontal="4dp"
             app:chipSpacingVertical="6dp"
@@ -84,7 +85,10 @@
                 android:layout_height="wrap_content"
                 android:text="@string/initialize"
                 android:visibility="gone"
-                app:chipIconEnabled="true" />
+                app:chipIcon="@drawable/ic_refresh_24"
+                app:chipIconEnabled="true"
+                app:chipIconTint="@color/icon_filter_chip_state_list_reset"
+                tools:visibility="visible" />
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/chipFastDelivery"
@@ -92,7 +96,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/fast_delivery"
-                app:chipIconEnabled="true" />
+                app:chipIcon="@drawable/ic_thunder_24"
+                app:chipIconEnabled="true"
+                app:chipIconTint="@color/icon_filter_chip_state_list_delivery_fast" />
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/chipLowDeliveryTip"
@@ -100,7 +106,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/low_delivery_tip"
-                app:chipIconEnabled="true" />
+                app:chipIcon="@drawable/ic_down_24"
+                app:chipIconEnabled="true"
+                app:chipIconTint="@color/icon_filter_chip_state_list_delivery_tip" />
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/chipDefault"
@@ -108,7 +116,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/default_order"
-                app:chipIconEnabled="true" />
+                app:chipIconEnabled="true"
+                app:chipIconTint="@color/icon_filter_chip_state_list_reset" />
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/chipTopRate"
@@ -116,7 +125,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/top_rate"
-                app:chipIconEnabled="true" />
+                app:chipIcon="@drawable/ic_star_16"
+                app:chipIconEnabled="true"
+                app:chipIconTint="@color/icon_filter_chip_state_list_reset" />
 
         </com.google.android.material.chip.ChipGroup>
     </HorizontalScrollView>

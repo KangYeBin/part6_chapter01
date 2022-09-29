@@ -9,6 +9,8 @@ import android.location.LocationListener
 import android.location.LocationManager
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.view.isVisible
+import androidx.fragment.app.Fragment
 import com.google.android.material.tabs.TabLayoutMediator
 import com.yb.part6_chapter01.R
 import com.yb.part6_chapter01.data.entity.LocationLatLngEntity
@@ -19,6 +21,7 @@ import com.yb.part6_chapter01.extensions.toVisible
 import com.yb.part6_chapter01.screen.base.BaseFragment
 import com.yb.part6_chapter01.screen.main.home.restaurant.RestaurantCategory
 import com.yb.part6_chapter01.screen.main.home.restaurant.RestaurantListFragment
+import com.yb.part6_chapter01.screen.main.home.restaurant.RestaurantOrder
 import com.yb.part6_chapter01.screen.mylocation.MyLocationActivity
 import com.yb.part6_chapter01.widget.adapter.RestaurantListFragmentPagerAdapter
 import org.koin.android.viewmodel.ext.android.viewModel
@@ -74,12 +77,43 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>() {
                 )
             }
         }
+
+        orderChipGroup.setOnCheckedStateChangeListener { group, checkedIds ->
+            when (checkedIds.first()) {
+                R.id.chipDefault -> {
+                    chipInitialize.toGone()
+                    changeRestaurantOrder(RestaurantOrder.DEFAULT)
+                }
+                R.id.chipInitialize -> {
+                    chipDefault.isChecked = true
+                }
+                R.id.chipLowDeliveryTip -> {
+                    chipInitialize.toVisible()
+                    changeRestaurantOrder(RestaurantOrder.LOW_DELIVERY_TIP)
+                }
+                R.id.chipFastDelivery -> {
+                    chipInitialize.toVisible()
+                    changeRestaurantOrder(RestaurantOrder.FAST_DELIVERY)
+                }
+                R.id.chipTopRate -> {
+                    chipInitialize.toVisible()
+                    changeRestaurantOrder(RestaurantOrder.TOP_RATE)
+                }
+            }
+        }
+    }
+
+    private fun changeRestaurantOrder(order: RestaurantOrder) {
+        viewPagerAdapter.fragmentList.forEach { fragment ->
+            fragment.viewModel.setRestaurantOrder(order)
+        }
     }
 
     private fun initViewPager(locationLatLng: LocationLatLngEntity) = with(binding) {
         val restaurantCategories = RestaurantCategory.values()
 
         if (::viewPagerAdapter.isInitialized.not()) {
+            orderChipGroup.toVisible()
             val restaurantListFragmentList = restaurantCategories.map {
                 RestaurantListFragment.newInstance(it, locationLatLng)
             }
