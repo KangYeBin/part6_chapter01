@@ -2,8 +2,10 @@
     <!-- Base application theme. -->
     <style name="Theme.Part6_chapter01" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="toolbarStyle">@style/Widget.Part6chapter01.Toolbar</item>
-        <item name="toolbarWithArrowButtonStyle">@style/Widget.Part6chapter01.Toolbar.WithArrow</item>
-        <item name="toolbarWithCloseButtonStyle">@style/Widget.Part6chapter01.Toolbar.WithClose</item>
+        <item name="toolbarWithArrowButtonStyle">@style/Widget.Part6chapter01.Toolbar.WithArrow
+        </item>
+        <item name="toolbarWithCloseButtonStyle">@style/Widget.Part6chapter01.Toolbar.WithClose
+        </item>
 
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/purple_500</item>
@@ -16,5 +18,11 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="Theme.Part6_chapter01">
+        <item name="android:textColorPrimary">@color/white</item>
+        <item name="android:textColorSecondary">@color/black</item>
+        <item name="android:background">@null</item>
     </style>
 </resources>

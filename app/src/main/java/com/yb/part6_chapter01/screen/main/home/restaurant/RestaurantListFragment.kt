@@ -6,6 +6,7 @@ import com.yb.part6_chapter01.data.entity.LocationLatLngEntity
 import com.yb.part6_chapter01.databinding.FragmentRestaurantListBinding
 import com.yb.part6_chapter01.model.restaurant.RestaurantModel
 import com.yb.part6_chapter01.screen.base.BaseFragment
+import com.yb.part6_chapter01.screen.main.home.restaurant.detail.RestaurantDetailActivity
 import com.yb.part6_chapter01.util.provider.ResourcesProvider
 import com.yb.part6_chapter01.widget.adapter.ModelRecyclerAdapter
 import com.yb.part6_chapter01.widget.adapter.listener.restaurant.RestaurantListListener
@@ -37,7 +38,7 @@ class RestaurantListFragment :
             resourcesProvider,
             adapterListener = object : RestaurantListListener {
                 override fun onItemClick(model: RestaurantModel) {
-                    Toast.makeText(requireContext(), "$model", Toast.LENGTH_SHORT).show()
+                    startActivity(RestaurantDetailActivity.newIntent(requireContext(), model.toEntity()))
                 }
             }
         )
@@ -54,6 +55,7 @@ class RestaurantListFragment :
     companion object {
         const val RESTAURANT_CATEGORY_KEY = "restaurantCategory"
         const val LOCATION_KEY = "location"
+        const val RESTAURANT_KEY = "restaurant"
 
         fun newInstance(
             restaurantCategory: RestaurantCategory,

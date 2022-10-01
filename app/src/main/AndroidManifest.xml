@@ -23,7 +23,16 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".screen.mylocation.MyLocationActivity" />
+        <activity
+            android:name=".screen.mylocation.MyLocationActivity"
+            android:exported="false" />
+        <activity
+            android:name=".screen.main.home.restaurant.detail.RestaurantDetailActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"

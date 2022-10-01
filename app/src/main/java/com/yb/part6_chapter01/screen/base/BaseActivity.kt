@@ -25,13 +25,13 @@ abstract class BaseActivity<VM : BaseViewModel, VB : ViewBinding> : AppCompatAct
     open fun initState() {
         initViews()
         fetchJob = viewModel.fetchData()
-        observeDate()
+        observeData()
     }
 
     open fun initViews() {
     }
 
-    open fun observeDate() {
+    open fun observeData() {
     }
 
     override fun onDestroy() {

@@ -2,6 +2,7 @@ package com.yb.part6_chapter01.di
 
 import com.yb.part6_chapter01.data.entity.LocationLatLngEntity
 import com.yb.part6_chapter01.data.entity.MapSearchInfoEntity
+import com.yb.part6_chapter01.data.entity.RestaurantEntity
 import com.yb.part6_chapter01.data.repository.map.DefaultMapRepository
 import com.yb.part6_chapter01.data.repository.map.MapRepository
 import com.yb.part6_chapter01.data.repository.restaurant.DefaultRestaurantRepository
@@ -11,6 +12,7 @@ import com.yb.part6_chapter01.data.repository.user.UserRepository
 import com.yb.part6_chapter01.screen.main.home.HomeViewModel
 import com.yb.part6_chapter01.screen.main.home.restaurant.RestaurantCategory
 import com.yb.part6_chapter01.screen.main.home.restaurant.RestaurantListViewModel
+import com.yb.part6_chapter01.screen.main.home.restaurant.detail.RestaurantDetailViewModel
 import com.yb.part6_chapter01.screen.main.my.MyViewModel
 import com.yb.part6_chapter01.screen.mylocation.MyLocationViewModel
 import com.yb.part6_chapter01.util.provider.DefaultResourcesProvider
@@ -31,6 +33,7 @@ val appModule = module {
     viewModel { (mapSearchInfoEntity: MapSearchInfoEntity) ->
         MyLocationViewModel(mapSearchInfoEntity, get(), get())
     }
+    viewModel { (restaurantEntity: RestaurantEntity) -> RestaurantDetailViewModel(restaurantEntity) }
 
     // Repository
     single<RestaurantRepository> { DefaultRestaurantRepository(get(), get(), get()) }

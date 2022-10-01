@@ -73,7 +73,7 @@ class MyLocationActivity : BaseActivity<MyLocationViewModel, ActivityMyLocationB
         mapFragment.getMapAsync(this)
     }
 
-    override fun observeDate() = viewModel.myLocationStateLiveData.observe(this) { state ->
+    override fun observeData() = viewModel.myLocationStateLiveData.observe(this) { state ->
         when (state) {
             is MyLocationState.Loading -> {
                 handleLoadingState()
