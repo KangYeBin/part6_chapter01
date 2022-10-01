@@ -33,7 +33,15 @@ class RestaurantDetailViewModel(
             }
             else -> null
         }
+    }
 
+    fun getRestaurantInfo(): RestaurantEntity? {
+        return when (val data = restaurantDetailStateLiveData.value) {
+            is RestaurantDetailState.Success -> {
+                data.restaurantEntity
+            }
+            else -> null
+        }
     }
 
     fun toggleLikedRestaurant() = viewModelScope.launch {
