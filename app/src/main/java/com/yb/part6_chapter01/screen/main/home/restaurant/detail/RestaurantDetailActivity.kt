@@ -2,8 +2,10 @@ package com.yb.part6_chapter01.screen.main.home.restaurant.detail
 
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
-import androidx.activity.result.contract.ActivityResultContracts
+import android.util.Log
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import com.google.android.material.appbar.AppBarLayout
 import com.yb.part6_chapter01.R
@@ -67,6 +69,10 @@ class RestaurantDetailActivity :
 
         toolbar.setNavigationOnClickListener { finish() }
         callButton.setOnClickListener {
+            viewModel.getRestaurantTelNumber().let { telNumber ->
+                val intent = Intent(Intent.ACTION_DIAL, Uri.parse("tel:$telNumber"))
+                startActivity(intent)
+            }
 
         }
         likeButton.setOnClickListener {
@@ -95,9 +101,7 @@ class RestaurantDetailActivity :
     private fun handleSuccess(state: RestaurantDetailState.Success) = with(binding) {
         val restaurantEntity = state.restaurantEntity
 
-        if (restaurantEntity.restaurantTelNumber == null)
-            callButton.toGone()
-        else
+        if (!restaurantEntity.restaurantTelNumber.isNullOrBlank())
             callButton.toVisible()
         restaurantTitleTextView.text = restaurantEntity.restaurantTitle
         restaurantImage.load(restaurantEntity.restaurantImageUrl)

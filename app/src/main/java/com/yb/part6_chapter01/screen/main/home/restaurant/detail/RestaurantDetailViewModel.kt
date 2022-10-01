@@ -18,4 +18,15 @@ class RestaurantDetailViewModel(
     override fun fetchData(): Job = viewModelScope.launch {
         restaurantDetailStateLiveData.value = RestaurantDetailState.Success(restaurantEntity)
     }
+
+    fun getRestaurantTelNumber(): String? {
+        return when (val data = restaurantDetailStateLiveData.value) {
+            is RestaurantDetailState.Success -> {
+                data.restaurantEntity.restaurantTelNumber
+            }
+            else -> null
+        }
+
+    }
+
 }
