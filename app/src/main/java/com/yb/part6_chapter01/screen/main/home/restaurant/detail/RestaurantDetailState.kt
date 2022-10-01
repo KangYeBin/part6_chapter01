@@ -13,6 +13,6 @@ sealed class RestaurantDetailState {
 //        val restaurantFoodList: List<RestaurantFoodEntity>? = null,
 //        val foodMenuListInBasket: List<RestaurantFoodEntity>? = null,
 //        val isClearNeedInBasketAndAction: Pair<Boolean, () -> Unit>? = Pair(false, {}),
-//        val isLiked: Boolean? = null,
+        val isLiked: Boolean? = null,
     ) : RestaurantDetailState()
 }

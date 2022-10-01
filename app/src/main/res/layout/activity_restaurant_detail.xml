@@ -210,6 +210,7 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
                 style="?attr/toolbarWithArrowButtonStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
