@@ -1,7 +1,9 @@
 package com.yb.part6_chapter01.di
 
 import com.yb.part6_chapter01.BuildConfig
+import com.yb.part6_chapter01.data.network.FoodApiService
 import com.yb.part6_chapter01.data.network.MapApiService
+import com.yb.part6_chapter01.data.url.TmapUrl.FOOD_URL
 import com.yb.part6_chapter01.data.url.TmapUrl.TMAP_URL
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -13,12 +15,27 @@ fun provideMapApiService(retrofit: Retrofit): MapApiService {
     return retrofit.create(MapApiService::class.java)
 }
 
+fun provideFoodApiService(retrofit: Retrofit): FoodApiService {
+    return retrofit.create(FoodApiService::class.java)
+}
+
 fun provideMapRetrofit(
     okHttpClient: OkHttpClient,
     gsonConverterFactory: GsonConverterFactory,
 ): Retrofit {
     return Retrofit.Builder()
         .baseUrl(TMAP_URL)
+        .addConverterFactory(gsonConverterFactory)
+        .client(okHttpClient)
+        .build()
+}
+
+fun provideFoodRetrofit(
+    okHttpClient: OkHttpClient,
+    gsonConverterFactory: GsonConverterFactory,
+): Retrofit {
+    return Retrofit.Builder()
+        .baseUrl(FOOD_URL)
         .addConverterFactory(gsonConverterFactory)
         .client(okHttpClient)
         .build()

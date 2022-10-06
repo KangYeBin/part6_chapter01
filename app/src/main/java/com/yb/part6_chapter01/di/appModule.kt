@@ -7,6 +7,8 @@ import com.yb.part6_chapter01.data.repository.map.DefaultMapRepository
 import com.yb.part6_chapter01.data.repository.map.MapRepository
 import com.yb.part6_chapter01.data.repository.restaurant.DefaultRestaurantRepository
 import com.yb.part6_chapter01.data.repository.restaurant.RestaurantRepository
+import com.yb.part6_chapter01.data.repository.restaurant.food.DefaultRestaurantFoodRepository
+import com.yb.part6_chapter01.data.repository.restaurant.food.RestaurantFoodRepository
 import com.yb.part6_chapter01.data.repository.user.DefaultUserRepository
 import com.yb.part6_chapter01.data.repository.user.UserRepository
 import com.yb.part6_chapter01.screen.main.home.HomeViewModel
@@ -20,6 +22,7 @@ import com.yb.part6_chapter01.util.provider.ResourcesProvider
 import kotlinx.coroutines.Dispatchers
 import org.koin.android.ext.koin.androidApplication
 import org.koin.android.viewmodel.dsl.viewModel
+import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
 val appModule = module {
@@ -33,24 +36,29 @@ val appModule = module {
     viewModel { (mapSearchInfoEntity: MapSearchInfoEntity) ->
         MyLocationViewModel(mapSearchInfoEntity, get(), get())
     }
-    viewModel { (restaurantEntity: RestaurantEntity) -> RestaurantDetailViewModel(restaurantEntity, get()) }
+    viewModel { (restaurantEntity: RestaurantEntity) ->
+        RestaurantDetailViewModel(restaurantEntity, get(), get())
+    }
 
     // Repository
     single<RestaurantRepository> { DefaultRestaurantRepository(get(), get(), get()) }
     single<MapRepository> { DefaultMapRepository(get(), get()) }
     single<UserRepository> { DefaultUserRepository(get(), get(), get()) }
+    single<RestaurantFoodRepository> { DefaultRestaurantFoodRepository(get(), get()) }
 
     single { provideDB(androidApplication()) }
     single { provideLocationDao(get()) }
     single { provideRestaurantDao(get()) }
 
+    // Api
     single { provideGsonConvertFactory() }
     single { buildOkHttpClient() }
 
-    single { provideMapRetrofit(get(), get()) }
+    single(named("map")) { provideMapRetrofit(get(), get()) }
+    single(named("food")) { provideFoodRetrofit(get(), get()) }
 
-    // Api
-    single { provideMapApiService(get()) }
+    single { provideMapApiService(get(qualifier = named("map"))) }
+    single { provideFoodApiService(get(qualifier = named("food"))) }
 
     single<ResourcesProvider> { DefaultResourcesProvider(androidApplication()) }
 

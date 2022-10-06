@@ -10,4 +10,5 @@ object TmapUrl {
 
     const val GET_TMAP_REVERSE_GEO_CODE = "/tmap/geo/reversegeocoding"
 
+    const val FOOD_URL = "https://633a83dde02b9b64c61117a9.mockapi.io/"
 }
