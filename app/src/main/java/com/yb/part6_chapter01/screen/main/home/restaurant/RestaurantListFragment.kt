@@ -3,7 +3,7 @@ package com.yb.part6_chapter01.screen.main.home.restaurant
 import android.widget.Toast
 import androidx.core.os.bundleOf
 import com.yb.part6_chapter01.data.entity.LocationLatLngEntity
-import com.yb.part6_chapter01.databinding.FragmentRestaurantListBinding
+import com.yb.part6_chapter01.databinding.FragmentListBinding
 import com.yb.part6_chapter01.model.restaurant.RestaurantModel
 import com.yb.part6_chapter01.screen.base.BaseFragment
 import com.yb.part6_chapter01.screen.main.home.restaurant.detail.RestaurantDetailActivity
@@ -15,7 +15,7 @@ import org.koin.android.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 
 class RestaurantListFragment :
-    BaseFragment<RestaurantListViewModel, FragmentRestaurantListBinding>() {
+    BaseFragment<RestaurantListViewModel, FragmentListBinding>() {
 
     private val restaurantCategory by lazy {
         arguments?.getSerializable(RESTAURANT_CATEGORY_KEY) as RestaurantCategory
@@ -26,8 +26,7 @@ class RestaurantListFragment :
 
     override val viewModel by viewModel<RestaurantListViewModel>() { parametersOf(restaurantCategory, locationLatLng) }
 
-    override fun getViewBinding(): FragmentRestaurantListBinding =
-        FragmentRestaurantListBinding.inflate(layoutInflater)
+    override fun getViewBinding(): FragmentListBinding = FragmentListBinding.inflate(layoutInflater)
 
     private val resourcesProvider by inject<ResourcesProvider>()
 

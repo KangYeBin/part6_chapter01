@@ -3,6 +3,7 @@ package com.yb.part6_chapter01.di
 import com.yb.part6_chapter01.data.entity.LocationLatLngEntity
 import com.yb.part6_chapter01.data.entity.MapSearchInfoEntity
 import com.yb.part6_chapter01.data.entity.RestaurantEntity
+import com.yb.part6_chapter01.data.entity.RestaurantFoodEntity
 import com.yb.part6_chapter01.data.repository.map.DefaultMapRepository
 import com.yb.part6_chapter01.data.repository.map.MapRepository
 import com.yb.part6_chapter01.data.repository.restaurant.DefaultRestaurantRepository
@@ -15,6 +16,8 @@ import com.yb.part6_chapter01.screen.main.home.HomeViewModel
 import com.yb.part6_chapter01.screen.main.home.restaurant.RestaurantCategory
 import com.yb.part6_chapter01.screen.main.home.restaurant.RestaurantListViewModel
 import com.yb.part6_chapter01.screen.main.home.restaurant.detail.RestaurantDetailViewModel
+import com.yb.part6_chapter01.screen.main.home.restaurant.detail.menu.RestaurantMenuListViewModel
+import com.yb.part6_chapter01.screen.main.home.restaurant.detail.review.RestaurantReviewListViewModel
 import com.yb.part6_chapter01.screen.main.my.MyViewModel
 import com.yb.part6_chapter01.screen.mylocation.MyLocationViewModel
 import com.yb.part6_chapter01.util.provider.DefaultResourcesProvider
@@ -39,6 +42,10 @@ val appModule = module {
     viewModel { (restaurantEntity: RestaurantEntity) ->
         RestaurantDetailViewModel(restaurantEntity, get(), get())
     }
+    viewModel { (restaurantId: Long, foodEntityList: List<RestaurantFoodEntity>) ->
+        RestaurantMenuListViewModel(restaurantId, foodEntityList)
+    }
+    viewModel { RestaurantReviewListViewModel() }
 
     // Repository
     single<RestaurantRepository> { DefaultRestaurantRepository(get(), get(), get()) }

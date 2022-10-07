@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?attr/selectableItemBackground"
+    android:clickable="true"
+    android:focusable="true">
+
+    <ImageView
+        android:id="@+id/foodImageView"
+        android:layout_width="120dp"
+        android:layout_height="0dp"
+        android:layout_margin="16dp"
+        android:scaleType="centerCrop"
+        app:layout_constraintDimensionRatio="w, 1:1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/foodTitleTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@id/foodImageView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/foodImageView"
+        app:layout_constraintVertical_chainStyle="packed"
+        tools:text="메뉴 이름" />
+
+    <TextView
+        android:id="@+id/foodDescriptionTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toTopOf="@id/priceTextView"
+        app:layout_constraintEnd_toEndOf="@id/foodTitleTextView"
+        app:layout_constraintStart_toStartOf="@id/foodTitleTextView"
+        app:layout_constraintTop_toBottomOf="@id/foodTitleTextView"
+        tools:text="메뉴 설명\n메뉴 설명\n메뉴 설명\n메뉴 설명" />
+
+    <TextView
+        android:id="@+id/priceTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/foodDescriptionTextView"
+        app:layout_constraintStart_toStartOf="@id/foodDescriptionTextView"
+        app:layout_constraintTop_toBottomOf="@id/foodDescriptionTextView"
+        tools:text="8,900원" />
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="0.5dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/priceTextView" />
+</androidx.constraintlayout.widget.ConstraintLayout>

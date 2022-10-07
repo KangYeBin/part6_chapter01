@@ -5,12 +5,12 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
-import android.widget.Toast
 import androidx.core.content.ContextCompat
 import com.google.android.material.appbar.AppBarLayout
+import com.google.android.material.tabs.TabLayoutMediator
 import com.yb.part6_chapter01.R
 import com.yb.part6_chapter01.data.entity.RestaurantEntity
+import com.yb.part6_chapter01.data.entity.RestaurantFoodEntity
 import com.yb.part6_chapter01.databinding.ActivityRestaurantDetailBinding
 import com.yb.part6_chapter01.extensions.fromDpToPx
 import com.yb.part6_chapter01.extensions.load
@@ -18,6 +18,9 @@ import com.yb.part6_chapter01.extensions.toGone
 import com.yb.part6_chapter01.extensions.toVisible
 import com.yb.part6_chapter01.screen.base.BaseActivity
 import com.yb.part6_chapter01.screen.main.home.restaurant.RestaurantListFragment
+import com.yb.part6_chapter01.screen.main.home.restaurant.detail.menu.RestaurantMenuListFragment
+import com.yb.part6_chapter01.screen.main.home.restaurant.detail.review.RestaurantReviewListFragment
+import com.yb.part6_chapter01.widget.adapter.RestaurantDetailListFragmentPagerAdapter
 import org.koin.android.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 import kotlin.math.abs
@@ -49,6 +52,8 @@ class RestaurantDetailActivity :
     override fun initViews() {
         initAppBar()
     }
+
+    private lateinit var viewPagerAdapter: RestaurantDetailListFragmentPagerAdapter
 
     private fun initAppBar() = with(binding) {
         appBar.addOnOffsetChangedListener(AppBarLayout.OnOffsetChangedListener { appBarLayout, verticalOffset ->
@@ -103,7 +108,7 @@ class RestaurantDetailActivity :
 
             }
             is RestaurantDetailState.Loading -> {
-
+                handleLoading()
             }
             is RestaurantDetailState.Success -> {
                 handleSuccess(state)
@@ -111,7 +116,13 @@ class RestaurantDetailActivity :
         }
     }
 
+    private fun handleLoading() = with(binding) {
+        menuAndReviewLoading.toVisible()
+    }
+
     private fun handleSuccess(state: RestaurantDetailState.Success) = with(binding) {
+        menuAndReviewLoading.toGone()
+
         val restaurantEntity = state.restaurantEntity
 
         if (!restaurantEntity.restaurantTelNumber.isNullOrBlank())
@@ -134,5 +145,28 @@ class RestaurantDetailActivity :
                     R.drawable.ic_heart_disable),
             null, null, null
         )
+
+        if (::viewPagerAdapter.isInitialized.not()) {
+            initViewPager(state.restaurantEntity.restaurantInfoId, state.restaurantFoodList)
+        }
+    }
+
+    private fun initViewPager(
+        restaurantInfoId: Long,
+        restaurantFoodList: List<RestaurantFoodEntity>?,
+    ) = with(binding) {
+        viewPagerAdapter = RestaurantDetailListFragmentPagerAdapter(
+            this@RestaurantDetailActivity,
+            listOf(
+                RestaurantMenuListFragment.newInstance(restaurantInfoId,
+                    ArrayList(restaurantFoodList ?: listOf())
+                ),
+                RestaurantReviewListFragment.newInstance(restaurantInfoId)
+            )
+        )
+        menuAndReviewViewPager.adapter = viewPagerAdapter
+        TabLayoutMediator(menuAndReviewTabLayout, menuAndReviewViewPager) { tab, position ->
+            tab.setText(RestaurantDetailCategory.values()[position].categoryNameId)
+        }.attach()
     }
 }
