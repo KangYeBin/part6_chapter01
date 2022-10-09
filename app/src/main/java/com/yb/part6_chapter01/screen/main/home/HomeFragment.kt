@@ -137,37 +137,57 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>() {
         }
     }
 
-    override fun observeData() = viewModel.homeStateLiveData.observe(viewLifecycleOwner) { state ->
-        when (state) {
-            is HomeState.Uninitialized -> {
-                getMyLocation()
-            }
-            is HomeState.Loading -> {
-                binding.locationLoading.toVisible()
-                binding.locationTextView.text = getString(R.string.loading)
-            }
-            is HomeState.Success -> {
-                binding.locationLoading.toGone()
-                binding.locationTextView.text = state.mapSearchInfo.fullAddress
-                binding.tabLayout.toVisible()
-                binding.filterScrollView.toVisible()
-                binding.viewPager.toVisible()
-                initViewPager(state.mapSearchInfo.locationLatLng)
-                if (state.isLocationSame.not()) {
-                    Toast.makeText(requireContext(),
-                        getString(R.string.please_set_your_current_location),
-                        Toast.LENGTH_SHORT).show()
-                }
-            }
-            is HomeState.Error -> {
-                binding.locationLoading.toGone()
-                binding.locationTextView.text = getString(R.string.location_no_found)
-                binding.locationTextView.setOnClickListener {
+    override fun onResume() {
+        super.onResume()
+        viewModel.checkMyBasket()
+    }
+
+    override fun observeData() {
+        viewModel.homeStateLiveData.observe(viewLifecycleOwner) { state ->
+            when (state) {
+                is HomeState.Uninitialized -> {
                     getMyLocation()
                 }
-                Toast.makeText(requireContext(), state.messageId, Toast.LENGTH_SHORT).show()
+                is HomeState.Loading -> {
+                    binding.locationLoading.toVisible()
+                    binding.locationTextView.text = getString(R.string.loading)
+                }
+                is HomeState.Success -> {
+                    binding.locationLoading.toGone()
+                    binding.locationTextView.text = state.mapSearchInfo.fullAddress
+                    binding.tabLayout.toVisible()
+                    binding.filterScrollView.toVisible()
+                    binding.viewPager.toVisible()
+                    initViewPager(state.mapSearchInfo.locationLatLng)
+                    if (state.isLocationSame.not()) {
+                        Toast.makeText(requireContext(),
+                            getString(R.string.please_set_your_current_location),
+                            Toast.LENGTH_SHORT).show()
+                    }
+                }
+                is HomeState.Error -> {
+                    binding.locationLoading.toGone()
+                    binding.locationTextView.text = getString(R.string.location_no_found)
+                    binding.locationTextView.setOnClickListener {
+                        getMyLocation()
+                    }
+                    Toast.makeText(requireContext(), state.messageId, Toast.LENGTH_SHORT).show()
+                }
+                else -> {}
             }
-            else -> {}
+        }
+        viewModel.foodMenuBasketLiveData.observe(viewLifecycleOwner) {
+            if (it.isNotEmpty()) {
+                binding.basketButtonContainer.toVisible()
+                binding.basketCountTextView.text = getString(R.string.basket_count, it.size)
+                binding.basketFloatingButton.setOnClickListener {
+                    // TODO 주문하기 화면으로 이동 or 로그인
+                }
+
+            } else {
+                binding.basketButtonContainer.toGone()
+                binding.basketFloatingButton.setOnClickListener(null)
+            }
         }
     }
 

@@ -1,5 +1,6 @@
 package com.yb.part6_chapter01.model.restaurant.food
 
+import com.yb.part6_chapter01.data.entity.RestaurantFoodEntity
 import com.yb.part6_chapter01.model.CellType
 import com.yb.part6_chapter01.model.Model
 
@@ -11,4 +12,15 @@ data class FoodModel(
     val price: Int,
     val imageUrl: String,
     val restaurantId: Long,
-) : Model(id, type)
+    val foodId: String,
+) : Model(id, type) {
+
+    fun toEntity(basketIndex: Int) = RestaurantFoodEntity(
+        "${foodId}_${basketIndex}",
+        title,
+        description,
+        price,
+        imageUrl,
+        restaurantId
+    )
+}

@@ -10,6 +10,7 @@ import com.yb.part6_chapter01.model.restaurant.food.FoodModel
 import com.yb.part6_chapter01.screen.base.BaseViewModel
 import com.yb.part6_chapter01.util.provider.ResourcesProvider
 import com.yb.part6_chapter01.widget.adapter.listener.AdapterListener
+import com.yb.part6_chapter01.widget.adapter.listener.restaurant.FoodMenuListListener
 import com.yb.part6_chapter01.widget.adapter.viewholder.ModelViewHolder
 
 class FoodMenuViewHolder(
@@ -22,6 +23,11 @@ class FoodMenuViewHolder(
     }
 
     override fun bindViews(model: FoodModel, adapterListener: AdapterListener) {
+        if (adapterListener is FoodMenuListListener) {
+            binding.root.setOnClickListener {
+                adapterListener.onItemClick(model)
+            }
+        }
 
     }
 
