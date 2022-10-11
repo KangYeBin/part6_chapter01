@@ -10,6 +10,8 @@ import com.yb.part6_chapter01.data.repository.restaurant.DefaultRestaurantReposi
 import com.yb.part6_chapter01.data.repository.restaurant.RestaurantRepository
 import com.yb.part6_chapter01.data.repository.restaurant.food.DefaultRestaurantFoodRepository
 import com.yb.part6_chapter01.data.repository.restaurant.food.RestaurantFoodRepository
+import com.yb.part6_chapter01.data.repository.restaurant.review.DefaultRestaurantReviewRepository
+import com.yb.part6_chapter01.data.repository.restaurant.review.RestaurantReviewRepository
 import com.yb.part6_chapter01.data.repository.user.DefaultUserRepository
 import com.yb.part6_chapter01.data.repository.user.UserRepository
 import com.yb.part6_chapter01.screen.main.home.HomeViewModel
@@ -45,13 +47,14 @@ val appModule = module {
     viewModel { (restaurantId: Long, foodEntityList: List<RestaurantFoodEntity>) ->
         RestaurantMenuListViewModel(restaurantId, foodEntityList, get())
     }
-    viewModel { RestaurantReviewListViewModel() }
+    viewModel { (restaurantTitle: String) -> RestaurantReviewListViewModel(restaurantTitle, get()) }
 
     // Repository
     single<RestaurantRepository> { DefaultRestaurantRepository(get(), get(), get()) }
     single<MapRepository> { DefaultMapRepository(get(), get()) }
     single<UserRepository> { DefaultUserRepository(get(), get(), get()) }
     single<RestaurantFoodRepository> { DefaultRestaurantFoodRepository(get(), get(), get()) }
+    single<RestaurantReviewRepository> { DefaultRestaurantReviewRepository(get()) }
 
     single { provideDB(androidApplication()) }
     single { provideLocationDao(get()) }
