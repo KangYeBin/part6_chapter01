@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?attr/selectableItemBackground"
+    android:clickable="true"
+    android:focusable="true">
+
+    <ImageView
+        android:id="@+id/restaurantImage"
+        android:layout_width="72dp"
+        android:layout_height="72dp"
+        android:layout_margin="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/restaurantTitleTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        app:layout_constraintStart_toEndOf="@id/restaurantImage"
+        app:layout_constraintTop_toTopOf="@id/restaurantImage"
+        tools:text="식당 이름" />
+
+    <TextView
+        android:id="@+id/gradeTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:drawableStartCompat="@drawable/ic_star_16"
+        app:drawableTint="@color/orange_yellow"
+        app:layout_constraintStart_toStartOf="@id/restaurantTitleTextView"
+        app:layout_constraintTop_toBottomOf="@id/restaurantTitleTextView"
+        tools:text="4.8" />
+
+    <TextView
+        android:id="@+id/reviewCountTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="3dp"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@id/gradeTextView"
+        app:layout_constraintStart_toEndOf="@id/gradeTextView"
+        app:layout_constraintTop_toTopOf="@id/gradeTextView"
+        tools:text="(+100)" />
+
+    <TextView
+        android:id="@+id/deliveryTimeTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:drawablePadding="5dp"
+        android:gravity="center_vertical"
+        android:textSize="12sp"
+        app:drawableStartCompat="@drawable/ic_clock_12"
+        app:layout_constraintStart_toStartOf="@id/gradeTextView"
+        app:layout_constraintTop_toBottomOf="@id/gradeTextView"
+        tools:text="21~36분" />
+
+    <TextView
+        android:id="@+id/deliveryTipTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="@id/restaurantImage"
+        app:layout_constraintStart_toStartOf="@id/deliveryTimeTextView"
+        app:layout_constraintTop_toBottomOf="@id/deliveryTimeTextView"
+        tools:text="배달팁 0원 ~ 2700원" />
+
+    <ImageView
+        android:id="@+id/likeButton"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginEnd="16dp"
+        android:src="@drawable/ic_heart_enable"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

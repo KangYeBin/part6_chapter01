@@ -9,6 +9,7 @@ import com.google.android.material.navigation.NavigationBarView
 import com.yb.part6_chapter01.R
 import com.yb.part6_chapter01.databinding.ActivityMainBinding
 import com.yb.part6_chapter01.screen.main.home.HomeFragment
+import com.yb.part6_chapter01.screen.main.like.RestaurantLikeListFragment
 import com.yb.part6_chapter01.screen.main.my.MyFragment
 
 class MainActivity : AppCompatActivity(), NavigationBarView.OnItemSelectedListener {
@@ -31,6 +32,10 @@ class MainActivity : AppCompatActivity(), NavigationBarView.OnItemSelectedListen
         return when (item.itemId) {
             R.id.menu_home -> {
                 showFragment(HomeFragment.newInstance(), HomeFragment.TAG)
+                true
+            }
+            R.id.menu_like -> {
+                showFragment(RestaurantLikeListFragment.newInstance(), RestaurantLikeListFragment.TAG)
                 true
             }
             R.id.menu_my -> {

@@ -21,6 +21,7 @@ import com.yb.part6_chapter01.screen.main.home.restaurant.RestaurantListViewMode
 import com.yb.part6_chapter01.screen.main.home.restaurant.detail.RestaurantDetailViewModel
 import com.yb.part6_chapter01.screen.main.home.restaurant.detail.menu.RestaurantMenuListViewModel
 import com.yb.part6_chapter01.screen.main.home.restaurant.detail.review.RestaurantReviewListViewModel
+import com.yb.part6_chapter01.screen.main.like.RestaurantLikeListViewModel
 import com.yb.part6_chapter01.screen.main.my.MyViewModel
 import com.yb.part6_chapter01.screen.mylocation.MyLocationViewModel
 import com.yb.part6_chapter01.util.provider.DefaultResourcesProvider
@@ -35,6 +36,7 @@ val appModule = module {
 
     // viewModel
     viewModel { HomeViewModel(get(), get(), get()) }
+    viewModel { RestaurantLikeListViewModel(get()) }
     viewModel { MyViewModel(get()) }
     viewModel { (restaurantCategory: RestaurantCategory, locationLatLngEntity: LocationLatLngEntity) ->
         RestaurantListViewModel(restaurantCategory, locationLatLngEntity, get())
