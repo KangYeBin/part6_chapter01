@@ -6,8 +6,12 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.GoogleAuthProvider
 import com.yb.part6_chapter01.R
 import com.yb.part6_chapter01.databinding.FragmentMyBinding
+import com.yb.part6_chapter01.extensions.load
+import com.yb.part6_chapter01.extensions.toGone
+import com.yb.part6_chapter01.extensions.toVisible
 import com.yb.part6_chapter01.screen.base.BaseFragment
 import org.koin.android.viewmodel.ext.android.viewModel
 
@@ -45,6 +49,10 @@ class MyFragment : BaseFragment<MyViewModel, FragmentMyBinding>() {
         loginButton.setOnClickListener {
             signInGoogle()
         }
+        logoutButton.setOnClickListener {
+            firebaseAuth.signOut()
+            viewModel.signOut()
+        }
     }
 
     private fun signInGoogle() {
@@ -52,7 +60,59 @@ class MyFragment : BaseFragment<MyViewModel, FragmentMyBinding>() {
         loginLauncher.launch(signInIntent)
     }
 
-    override fun observeData() {}
+    override fun observeData() = viewModel.myStateLiveData.observe(viewLifecycleOwner) { state ->
+        when (state) {
+            is MyState.Loading -> handleLoading()
+            is MyState.Login -> handleLogin(state)
+            is MyState.Success -> handleSuccess(state)
+            is MyState.Error -> handleError(state)
+            else -> Unit
+        }
+    }
+
+    private fun handleLoading() = with(binding) {
+        loginRequiredGroup.toGone()
+        progressBar.toVisible()
+    }
+
+    private fun handleLogin(state: MyState.Login) = with(binding) {
+        progressBar.toVisible()
+        val credential = GoogleAuthProvider.getCredential(state.idToken, null)
+        firebaseAuth.signInWithCredential(credential)
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    val user = firebaseAuth.currentUser
+                    viewModel.setUserInfo(user)
+                } else {
+                    firebaseAuth.signOut()
+                    viewModel.setUserInfo(null)
+                }
+            }
+    }
+
+    private fun handleSuccess(state: MyState.Success) = with(binding) {
+        progressBar.toGone()
+        when (state) {
+            is MyState.Success.Registered -> {
+                handleRegistered(state)
+            }
+            is MyState.Success.NotRegistered -> {
+                profileGroup.toGone()
+                loginRequiredGroup.toVisible()
+            }
+        }
+    }
+
+    private fun handleRegistered(state: MyState.Success.Registered) = with(binding) {
+        profileGroup.toVisible()
+        loginRequiredGroup.toGone()
+        profileImageView.load(state.profileUri.toString(), 60f)
+        userNameTextView.text = state.userName
+    }
+
+    private fun handleError(state: MyState.Error) {
+
+    }
 
     companion object {
         fun newInstance() = MyFragment()

@@ -4,6 +4,7 @@ import com.yb.part6_chapter01.data.entity.LocationLatLngEntity
 import com.yb.part6_chapter01.data.entity.MapSearchInfoEntity
 import com.yb.part6_chapter01.data.entity.RestaurantEntity
 import com.yb.part6_chapter01.data.entity.RestaurantFoodEntity
+import com.yb.part6_chapter01.data.preference.PreferenceManager
 import com.yb.part6_chapter01.data.repository.map.DefaultMapRepository
 import com.yb.part6_chapter01.data.repository.map.MapRepository
 import com.yb.part6_chapter01.data.repository.restaurant.DefaultRestaurantRepository
@@ -34,7 +35,7 @@ val appModule = module {
 
     // viewModel
     viewModel { HomeViewModel(get(), get(), get()) }
-    viewModel { MyViewModel() }
+    viewModel { MyViewModel(get()) }
     viewModel { (restaurantCategory: RestaurantCategory, locationLatLngEntity: LocationLatLngEntity) ->
         RestaurantListViewModel(restaurantCategory, locationLatLngEntity, get())
     }
@@ -72,6 +73,7 @@ val appModule = module {
     single { provideFoodApiService(get(qualifier = named("food"))) }
 
     single<ResourcesProvider> { DefaultResourcesProvider(androidApplication()) }
+    single { PreferenceManager(androidApplication()) }
 
     single { Dispatchers.IO }
     single { Dispatchers.Main }
