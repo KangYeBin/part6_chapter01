@@ -8,8 +8,10 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.lifecycleScope
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.tabs.TabLayoutMediator
+import com.google.firebase.auth.FirebaseAuth
 import com.yb.part6_chapter01.R
 import com.yb.part6_chapter01.data.entity.RestaurantEntity
 import com.yb.part6_chapter01.data.entity.RestaurantFoodEntity
@@ -19,12 +21,18 @@ import com.yb.part6_chapter01.extensions.load
 import com.yb.part6_chapter01.extensions.toGone
 import com.yb.part6_chapter01.extensions.toVisible
 import com.yb.part6_chapter01.screen.base.BaseActivity
+import com.yb.part6_chapter01.screen.main.MainActivity
+import com.yb.part6_chapter01.screen.main.MainTabMenu
 import com.yb.part6_chapter01.screen.main.home.restaurant.RestaurantListFragment
 import com.yb.part6_chapter01.screen.main.home.restaurant.detail.menu.RestaurantMenuListFragment
 import com.yb.part6_chapter01.screen.main.home.restaurant.detail.review.RestaurantReviewListFragment
+import com.yb.part6_chapter01.util.event.MenuChangeEventBus
 import com.yb.part6_chapter01.widget.adapter.RestaurantDetailListFragmentPagerAdapter
+import kotlinx.coroutines.launch
+import org.koin.android.ext.android.inject
 import org.koin.android.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
+import org.koin.experimental.property.inject
 import kotlin.math.abs
 
 class RestaurantDetailActivity :
@@ -45,6 +53,10 @@ class RestaurantDetailActivity :
 
     override fun getViewBinding(): ActivityRestaurantDetailBinding =
         ActivityRestaurantDetailBinding.inflate(layoutInflater)
+
+    private val firebaseAuth by lazy { FirebaseAuth.getInstance() }
+
+    private val menuChangeEventBus by inject<MenuChangeEventBus>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -190,9 +202,33 @@ class RestaurantDetailActivity :
                 getString(R.string.basket_count, foodMenuListInBasket.size)
             }
             basketFloatingButton.setOnClickListener {
-                // TODO 주문하기 화면으로 이동 or 로그인
+                if (firebaseAuth.currentUser == null) {
+                    alertLoginNeed {
+                        lifecycleScope.launch {
+                            menuChangeEventBus.changeMenu(MainTabMenu.MY)
+                            finish()
+                        }
+                    }
+                } else {
+                    // TODO: 장바구니로 이동
+                }
             }
         }
+
+    private fun alertLoginNeed(afterAction: () -> Unit) {
+        AlertDialog.Builder(this)
+            .setTitle("로그인이 필요합니다")
+            .setMessage("주문하려면 로그인이 필요합니다\n My 탭으로 이동하시겠습니까?")
+            .setPositiveButton("이동") { dialog, _ ->
+                afterAction()
+                dialog.dismiss()
+            }
+            .setNegativeButton("취소") { dialog, _ ->
+                dialog.dismiss()
+            }
+            .create()
+            .show()
+    }
 
     private fun alertClearNeedInBasket(afterAction: () -> Unit) {
         AlertDialog.Builder(this)

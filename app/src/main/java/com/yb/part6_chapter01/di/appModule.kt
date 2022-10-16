@@ -24,6 +24,8 @@ import com.yb.part6_chapter01.screen.main.home.restaurant.detail.review.Restaura
 import com.yb.part6_chapter01.screen.main.like.RestaurantLikeListViewModel
 import com.yb.part6_chapter01.screen.main.my.MyViewModel
 import com.yb.part6_chapter01.screen.mylocation.MyLocationViewModel
+import com.yb.part6_chapter01.screen.order.OrderMenuListViewModel
+import com.yb.part6_chapter01.util.event.MenuChangeEventBus
 import com.yb.part6_chapter01.util.provider.DefaultResourcesProvider
 import com.yb.part6_chapter01.util.provider.ResourcesProvider
 import kotlinx.coroutines.Dispatchers
@@ -51,6 +53,7 @@ val appModule = module {
         RestaurantMenuListViewModel(restaurantId, foodEntityList, get())
     }
     viewModel { (restaurantTitle: String) -> RestaurantReviewListViewModel(restaurantTitle, get()) }
+    viewModel { OrderMenuListViewModel() }
 
     // Repository
     single<RestaurantRepository> { DefaultRestaurantRepository(get(), get(), get()) }
@@ -79,4 +82,6 @@ val appModule = module {
 
     single { Dispatchers.IO }
     single { Dispatchers.Main }
+
+    single { MenuChangeEventBus() }
 }
