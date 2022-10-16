@@ -26,6 +26,7 @@ import com.yb.part6_chapter01.screen.main.MainTabMenu
 import com.yb.part6_chapter01.screen.main.home.restaurant.RestaurantListFragment
 import com.yb.part6_chapter01.screen.main.home.restaurant.detail.menu.RestaurantMenuListFragment
 import com.yb.part6_chapter01.screen.main.home.restaurant.detail.review.RestaurantReviewListFragment
+import com.yb.part6_chapter01.screen.order.OrderMenuListActivity
 import com.yb.part6_chapter01.util.event.MenuChangeEventBus
 import com.yb.part6_chapter01.widget.adapter.RestaurantDetailListFragmentPagerAdapter
 import kotlinx.coroutines.launch
@@ -210,7 +211,9 @@ class RestaurantDetailActivity :
                         }
                     }
                 } else {
-                    // TODO: 장바구니로 이동
+                    startActivity(
+                        OrderMenuListActivity.newIntent(this@RestaurantDetailActivity)
+                    )
                 }
             }
         }

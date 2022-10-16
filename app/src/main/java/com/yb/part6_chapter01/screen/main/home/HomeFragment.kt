@@ -25,6 +25,7 @@ import com.yb.part6_chapter01.screen.main.home.restaurant.RestaurantCategory
 import com.yb.part6_chapter01.screen.main.home.restaurant.RestaurantListFragment
 import com.yb.part6_chapter01.screen.main.home.restaurant.RestaurantOrder
 import com.yb.part6_chapter01.screen.mylocation.MyLocationActivity
+import com.yb.part6_chapter01.screen.order.OrderMenuListActivity
 import com.yb.part6_chapter01.widget.adapter.RestaurantListFragmentPagerAdapter
 import org.koin.android.viewmodel.ext.android.viewModel
 
@@ -190,7 +191,9 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>() {
                             (requireActivity() as MainActivity).goToTab(MainTabMenu.MY)
                         }
                     } else {
-                        // TODO: 장바구니로 이동
+                        startActivity(
+                            OrderMenuListActivity.newIntent(requireContext())
+                        )
                     }
                 }
 

@@ -10,6 +10,7 @@ import com.yb.part6_chapter01.util.provider.ResourcesProvider
 import com.yb.part6_chapter01.widget.adapter.viewholder.EmptyViewHolder
 import com.yb.part6_chapter01.widget.adapter.viewholder.ModelViewHolder
 import com.yb.part6_chapter01.widget.adapter.viewholder.food.FoodMenuViewHolder
+import com.yb.part6_chapter01.widget.adapter.viewholder.order.OrderMenuViewHolder
 import com.yb.part6_chapter01.widget.adapter.viewholder.restaurant.LikeRestaurantViewHolder
 import com.yb.part6_chapter01.widget.adapter.viewholder.restaurant.RestaurantViewHolder
 import com.yb.part6_chapter01.widget.adapter.viewholder.review.RestaurantReviewViewHolder
@@ -48,6 +49,11 @@ object ModelViewHolderMapper {
             )
             CellType.REVIEW_CELL -> RestaurantReviewViewHolder(
                 ViewholderRestaurantReviewBinding.inflate(inflater, parent, false),
+                viewModel,
+                resourcesProvider
+            )
+            CellType.ORDER_FOOD_CELL -> OrderMenuViewHolder(
+                ViewholderOrderMenuBinding.inflate(inflater, parent, false),
                 viewModel,
                 resourcesProvider
             )
