@@ -3,6 +3,9 @@ package com.yb.part6_chapter01.screen.order
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.auth.FirebaseAuth
+import com.yb.part6_chapter01.R
+import com.yb.part6_chapter01.data.repository.order.DefaultOrderRepository
+import com.yb.part6_chapter01.data.repository.order.OrderRepository
 import com.yb.part6_chapter01.data.repository.restaurant.food.RestaurantFoodRepository
 import com.yb.part6_chapter01.model.CellType
 import com.yb.part6_chapter01.model.restaurant.food.FoodModel
@@ -12,6 +15,7 @@ import kotlinx.coroutines.launch
 
 class OrderMenuListViewModel(
     private val restaurantFoodRepository: RestaurantFoodRepository,
+    private val orderRepository: OrderRepository,
 ) : BaseViewModel() {
 
     private val firebaseAuth by lazy { FirebaseAuth.getInstance() }
@@ -38,15 +42,38 @@ class OrderMenuListViewModel(
         )
     }
 
-    fun orderMenu() {
-
+    fun clearOrderMenu() = viewModelScope.launch {
+        restaurantFoodRepository.clearFoodMenuListInBasket()
+        fetchData()
     }
 
-    fun clearOrderMenu() {
-
+    fun removeOrderModel(foodModel: FoodModel) = viewModelScope.launch {
+        restaurantFoodRepository.removeFoodMenuInBasket(foodModel.foodId)
+        fetchData()
     }
 
-    fun removeOrderModel(foodModel: FoodModel) {
+    fun orderMenu() = viewModelScope.launch {
+        val foodMenuList = restaurantFoodRepository.getAllFoodMenuListInBasket()
+        if (foodMenuList.isNotEmpty()) {
+            val restaurantId = foodMenuList.first().restaurantId
+            firebaseAuth.currentUser?.let { user ->
+                when (val data = orderRepository.orderMenu(restaurantId, user.uid, foodMenuList)) {
+                    is DefaultOrderRepository.Result.Success<*> -> {
+                        restaurantFoodRepository.clearFoodMenuListInBasket()
+                        orderMenuListStateLiveData.value = OrderMenuListState.Order
+                    }
+                    is DefaultOrderRepository.Result.Error -> {
+                        orderMenuListStateLiveData.value = OrderMenuListState.Error(
+                            R.string.request_error, data.e
+                        )
+                    }
+                }
+            } ?: kotlin.run {
+                orderMenuListStateLiveData.value = OrderMenuListState.Error(
+                    R.string.user_id_not_found, IllegalAccessException()
+                )
 
+            }
+        }
     }
 }

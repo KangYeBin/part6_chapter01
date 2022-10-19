@@ -1,5 +1,7 @@
 package com.yb.part6_chapter01.di
 
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import com.yb.part6_chapter01.data.entity.LocationLatLngEntity
 import com.yb.part6_chapter01.data.entity.MapSearchInfoEntity
 import com.yb.part6_chapter01.data.entity.RestaurantEntity
@@ -7,6 +9,8 @@ import com.yb.part6_chapter01.data.entity.RestaurantFoodEntity
 import com.yb.part6_chapter01.data.preference.PreferenceManager
 import com.yb.part6_chapter01.data.repository.map.DefaultMapRepository
 import com.yb.part6_chapter01.data.repository.map.MapRepository
+import com.yb.part6_chapter01.data.repository.order.DefaultOrderRepository
+import com.yb.part6_chapter01.data.repository.order.OrderRepository
 import com.yb.part6_chapter01.data.repository.restaurant.DefaultRestaurantRepository
 import com.yb.part6_chapter01.data.repository.restaurant.RestaurantRepository
 import com.yb.part6_chapter01.data.repository.restaurant.food.DefaultRestaurantFoodRepository
@@ -53,7 +57,7 @@ val appModule = module {
         RestaurantMenuListViewModel(restaurantId, foodEntityList, get())
     }
     viewModel { (restaurantTitle: String) -> RestaurantReviewListViewModel(restaurantTitle, get()) }
-    viewModel { OrderMenuListViewModel(get()) }
+    viewModel { OrderMenuListViewModel(get(), get()) }
 
     // Repository
     single<RestaurantRepository> { DefaultRestaurantRepository(get(), get(), get()) }
@@ -61,6 +65,7 @@ val appModule = module {
     single<UserRepository> { DefaultUserRepository(get(), get(), get()) }
     single<RestaurantFoodRepository> { DefaultRestaurantFoodRepository(get(), get(), get()) }
     single<RestaurantReviewRepository> { DefaultRestaurantReviewRepository(get()) }
+    single<OrderRepository> { DefaultOrderRepository(get(), get()) }
 
     single { provideDB(androidApplication()) }
     single { provideLocationDao(get()) }
@@ -84,4 +89,6 @@ val appModule = module {
     single { Dispatchers.Main }
 
     single { MenuChangeEventBus() }
+
+    single { Firebase.firestore }
 }
