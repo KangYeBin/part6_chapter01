@@ -4,7 +4,11 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import com.yb.part6_chapter01.data.entity.OrderEntity
 import com.yb.part6_chapter01.data.preference.PreferenceManager
+import com.yb.part6_chapter01.data.repository.order.DefaultOrderRepository
+import com.yb.part6_chapter01.data.repository.order.OrderRepository
+import com.yb.part6_chapter01.data.repository.user.UserRepository
 import com.yb.part6_chapter01.screen.base.BaseViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -13,6 +17,8 @@ import kotlinx.coroutines.withContext
 
 class MyViewModel(
     private val preferenceManager: PreferenceManager,
+    private val userRepository: UserRepository,
+    private val orderRepository: OrderRepository,
 ) : BaseViewModel() {
 
     val myStateLiveData = MutableLiveData<MyState>(MyState.UnInitialized)
@@ -35,9 +41,19 @@ class MyViewModel(
 
     fun setUserInfo(firebaseUser: FirebaseUser?) = viewModelScope.launch {
         firebaseUser?.let { user ->
-            myStateLiveData.value = MyState.Success.Registered(
-                userName = user.displayName ?: "익명",
-                profileUri = user.photoUrl)
+            when (val orderMenusResult = orderRepository.getAllOrderMenus(user.uid)) {
+                is DefaultOrderRepository.Result.Success<*> -> {
+                    val orderList = orderMenusResult.data as List<OrderEntity>
+                    myStateLiveData.value = MyState.Success.Registered(
+                        userName = user.displayName ?: "익명",
+                        profileUri = user.photoUrl,
+                        orderList = orderList
+                    )
+                }
+                is DefaultOrderRepository.Result.Error -> {
+
+                }
+            }
         } ?: kotlin.run {
             myStateLiveData.value = MyState.Success.NotRegistered
         }
@@ -47,6 +63,7 @@ class MyViewModel(
         withContext(Dispatchers.IO) {
             preferenceManager.removeIdToken()
         }
+        userRepository.deleteAllUserLikedRestaurant()
         fetchData()
     }
 }

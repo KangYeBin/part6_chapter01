@@ -43,7 +43,7 @@ val appModule = module {
     // viewModel
     viewModel { HomeViewModel(get(), get(), get()) }
     viewModel { RestaurantLikeListViewModel(get()) }
-    viewModel { MyViewModel(get()) }
+    viewModel { MyViewModel(get(), get(), get()) }
     viewModel { (restaurantCategory: RestaurantCategory, locationLatLngEntity: LocationLatLngEntity) ->
         RestaurantListViewModel(restaurantCategory, locationLatLngEntity, get())
     }
