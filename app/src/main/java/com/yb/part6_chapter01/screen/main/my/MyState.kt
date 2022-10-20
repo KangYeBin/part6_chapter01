@@ -3,6 +3,7 @@ package com.yb.part6_chapter01.screen.main.my
 import android.net.Uri
 import androidx.annotation.StringRes
 import com.yb.part6_chapter01.data.entity.OrderEntity
+import com.yb.part6_chapter01.model.restaurant.order.OrderModel
 
 sealed class MyState {
 
@@ -18,7 +19,7 @@ sealed class MyState {
         data class Registered(
             val userName: String,
             val profileUri: Uri?,
-            val orderList: List<OrderEntity>
+            val orderList: List<OrderModel>
         ) : Success()
 
         object NotRegistered : Success()

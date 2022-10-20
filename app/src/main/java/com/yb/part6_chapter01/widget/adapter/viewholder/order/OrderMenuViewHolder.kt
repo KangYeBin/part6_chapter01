@@ -31,6 +31,7 @@ class OrderMenuViewHolder(
     }
 
     override fun bindData(model: FoodModel) = with(binding) {
+        super.bindData(model)
         foodImageView.load(model.imageUrl, 24f, CenterCrop())
         foodTitleTextView.text = model.title
         foodDescriptionTextView.text = model.description

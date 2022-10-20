@@ -13,7 +13,12 @@ import com.yb.part6_chapter01.databinding.FragmentMyBinding
 import com.yb.part6_chapter01.extensions.load
 import com.yb.part6_chapter01.extensions.toGone
 import com.yb.part6_chapter01.extensions.toVisible
+import com.yb.part6_chapter01.model.restaurant.order.OrderModel
 import com.yb.part6_chapter01.screen.base.BaseFragment
+import com.yb.part6_chapter01.util.provider.ResourcesProvider
+import com.yb.part6_chapter01.widget.adapter.ModelRecyclerAdapter
+import com.yb.part6_chapter01.widget.adapter.listener.AdapterListener
+import org.koin.android.ext.android.inject
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class MyFragment : BaseFragment<MyViewModel, FragmentMyBinding>() {
@@ -46,7 +51,19 @@ class MyFragment : BaseFragment<MyViewModel, FragmentMyBinding>() {
             }
         }
 
+    private val resourcesProvider by inject<ResourcesProvider>()
+
+    private val adapter by lazy {
+        ModelRecyclerAdapter<OrderModel, MyViewModel>(
+            listOf(),
+            viewModel,
+            resourcesProvider,
+            object : AdapterListener {}
+        )
+    }
+
     override fun initViews() = with(binding) {
+        recyclerView.adapter = adapter
         loginButton.setOnClickListener {
             signInGoogle()
         }
@@ -109,6 +126,7 @@ class MyFragment : BaseFragment<MyViewModel, FragmentMyBinding>() {
         loginRequiredGroup.toGone()
         profileImageView.load(state.profileUri.toString(), 60f)
         userNameTextView.text = state.userName
+        adapter.submitList(state.orderList)
     }
 
     private fun handleError(state: MyState.Error) {

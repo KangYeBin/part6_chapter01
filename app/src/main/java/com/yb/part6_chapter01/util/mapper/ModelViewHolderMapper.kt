@@ -3,6 +3,7 @@ package com.yb.part6_chapter01.util.mapper
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.yb.part6_chapter01.databinding.*
+import com.yb.part6_chapter01.databinding.ViewholderOrderBinding
 import com.yb.part6_chapter01.model.CellType
 import com.yb.part6_chapter01.model.Model
 import com.yb.part6_chapter01.screen.base.BaseViewModel
@@ -11,6 +12,7 @@ import com.yb.part6_chapter01.widget.adapter.viewholder.EmptyViewHolder
 import com.yb.part6_chapter01.widget.adapter.viewholder.ModelViewHolder
 import com.yb.part6_chapter01.widget.adapter.viewholder.food.FoodMenuViewHolder
 import com.yb.part6_chapter01.widget.adapter.viewholder.order.OrderMenuViewHolder
+import com.yb.part6_chapter01.widget.adapter.viewholder.order.OrderViewHolder
 import com.yb.part6_chapter01.widget.adapter.viewholder.restaurant.LikeRestaurantViewHolder
 import com.yb.part6_chapter01.widget.adapter.viewholder.restaurant.RestaurantViewHolder
 import com.yb.part6_chapter01.widget.adapter.viewholder.review.RestaurantReviewViewHolder
@@ -54,6 +56,11 @@ object ModelViewHolderMapper {
             )
             CellType.ORDER_FOOD_CELL -> OrderMenuViewHolder(
                 ViewholderOrderMenuBinding.inflate(inflater, parent, false),
+                viewModel,
+                resourcesProvider
+            )
+            CellType.ORDER_CELL -> OrderViewHolder(
+                ViewholderOrderBinding.inflate(inflater, parent, false),
                 viewModel,
                 resourcesProvider
             )
