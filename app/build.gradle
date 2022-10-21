@@ -100,4 +100,13 @@ dependencies {
     implementation 'com.google.firebase:firebase-auth:21.1.0'
     implementation 'com.google.firebase:firebase-firestore-ktx:24.4.0'
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.6.4'
+    implementation 'com.google.firebase:firebase-storage-ktx'
+
+    // Camera X
+    implementation 'androidx.camera:camera-camera2:1.1.0-alpha05'
+    implementation 'androidx.camera:camera-lifecycle:1.1.0-alpha05'
+    implementation 'androidx.camera:camera-view:1.1.0-alpha25'
+
+    // Circle Indicator
+    implementation 'me.relax:circleindicator:2.1.6'
 }

@@ -42,4 +42,9 @@
     <string name="request_error">요청했지만 예상치못한 에러가 발생했습니다 : %s</string>
     <string name="user_id_not_found">유저 ID가 존재하지 않습니다</string>
     <string name="order_history_title">주문 내역 : %s</string>
+    <string name="add_review">등록하기</string>
+    <string name="add_image">이미지 등록하기</string>
+    <string name="제목">제목</string>
+    <string name="content">내용</string>
+    <string name="add_restaurant_review">%s 리뷰 등록</string>
 </resources>

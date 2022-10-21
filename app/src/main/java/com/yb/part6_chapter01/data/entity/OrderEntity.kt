@@ -5,4 +5,5 @@ data class OrderEntity(
     val userId: String,
     val restaurantId: Long,
     val foodMenuList: List<RestaurantFoodEntity>,
+    val restaurantTitle: String
 )

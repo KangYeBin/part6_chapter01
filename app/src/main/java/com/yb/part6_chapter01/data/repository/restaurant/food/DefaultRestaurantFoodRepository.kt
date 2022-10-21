@@ -11,12 +11,12 @@ class DefaultRestaurantFoodRepository(
     private val foodMenuInBasketDao: FoodMenuInBasketDao,
     private val ioDispatcher: CoroutineDispatcher,
 ) : RestaurantFoodRepository {
-    override suspend fun getFoods(restaurantId: Long): List<RestaurantFoodEntity> =
+    override suspend fun getFoods(restaurantId: Long, restaurantTitle: String): List<RestaurantFoodEntity> =
         withContext(ioDispatcher) {
             val response = foodApiService.getRestaurantFoods(restaurantId)
             if (response.isSuccessful) {
                 response.body()?.map {
-                    it.toEntity(restaurantId)
+                    it.toEntity(restaurantId, restaurantTitle)
                 } ?: listOf()
             } else {
                 listOf()

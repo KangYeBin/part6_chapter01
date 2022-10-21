@@ -1,5 +1,6 @@
 package com.yb.part6_chapter01.di
 
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.yb.part6_chapter01.data.entity.LocationLatLngEntity
@@ -29,6 +30,7 @@ import com.yb.part6_chapter01.screen.main.like.RestaurantLikeListViewModel
 import com.yb.part6_chapter01.screen.main.my.MyViewModel
 import com.yb.part6_chapter01.screen.mylocation.MyLocationViewModel
 import com.yb.part6_chapter01.screen.order.OrderMenuListViewModel
+import com.yb.part6_chapter01.screen.review.AddRestaurantReviewViewModel
 import com.yb.part6_chapter01.util.event.MenuChangeEventBus
 import com.yb.part6_chapter01.util.provider.DefaultResourcesProvider
 import com.yb.part6_chapter01.util.provider.ResourcesProvider
@@ -58,6 +60,7 @@ val appModule = module {
     }
     viewModel { (restaurantTitle: String) -> RestaurantReviewListViewModel(restaurantTitle, get()) }
     viewModel { OrderMenuListViewModel(get(), get()) }
+    viewModel { AddRestaurantReviewViewModel() }
 
     // Repository
     single<RestaurantRepository> { DefaultRestaurantRepository(get(), get(), get()) }
@@ -91,4 +94,5 @@ val appModule = module {
     single { MenuChangeEventBus() }
 
     single { Firebase.firestore }
+    single { FirebaseAuth.getInstance() }
 }

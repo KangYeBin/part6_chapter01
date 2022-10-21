@@ -12,6 +12,7 @@ data class OrderModel(
     val userId: String,
     val restaurantId: Long,
     val foodMenuList: List<RestaurantFoodEntity>,
+    val restaurantTitle: String
 ) : Model(id, type) {
 
     fun toEntity() {
@@ -19,7 +20,8 @@ data class OrderModel(
             id = orderId,
             userId = userId,
             restaurantId = restaurantId,
-            foodMenuList = foodMenuList
+            foodMenuList = foodMenuList,
+            restaurantTitle = restaurantTitle
         )
     }
 

@@ -55,7 +55,8 @@ class MyViewModel(
                                 orderId = it.id,
                                 userId = it.userId,
                                 restaurantId = it.restaurantId,
-                                foodMenuList = it.foodMenuList
+                                foodMenuList = it.foodMenuList,
+                                restaurantTitle = it.restaurantTitle
                             )
                         }
                     )
