@@ -28,12 +28,12 @@ class RestaurantReviewViewHolder(
 
         if (model.thumbnailImageUri != null) {
             reviewThumbnailImage.toVisible()
-            reviewThumbnailImage.load(model.thumbnailImageUri.toString(), 24f)
+            reviewThumbnailImage.load(model.thumbnailImageUri.toString())
         } else {
             reviewThumbnailImage.toGone()
         }
         reviewTitleTextView.text = model.title
         reviewTextView.text = model.content
-        ratingBar.rating = model.grade.toFloat()
+        ratingBar.rating = model.grade
     }
 }

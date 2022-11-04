@@ -80,12 +80,12 @@ class DefaultRestaurantReviewRepository(
 
             Result.Success(snapshot.documents.map {
                 RestaurantReviewEntity(
-                    id = it.id.toLong(),
+                    id = hashCode().toLong(),
                     userId = it.get("userId") as String,
                     title = it.get("title") as String,
                     createdAt = it.get("createdAt") as Long,
                     content = it.get("content") as String,
-                    rating = it.get("rating") as Float,
+                    rating = (it.get("rating") as Double).toFloat(),
                     imageUrlList = it.get("imageUrlList") as List<String>?,
                     orderId = it.get("orderId") as String,
                     restaurantTitle = it.get("restaurantTitle") as String

@@ -1,5 +1,6 @@
 package com.yb.part6_chapter01.screen.main.home.restaurant.detail.review
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.yb.part6_chapter01.R
@@ -23,6 +24,9 @@ class RestaurantReviewListViewModel(
         reviewStateLiveData.value = RestaurantReviewState.Loading
         when (val reviews = restaurantReviewRepository.getReviews(restaurantTitle)) {
             is DefaultRestaurantReviewRepository.Result.Success<*> -> {
+                Log.d("fetchData restaurantTitle", restaurantTitle)
+                Log.d("fetchData reviews", reviews.toString())
+
                 val reviewList = reviews.data as List<RestaurantReviewEntity>
                 reviewStateLiveData.value = RestaurantReviewState.Success(
                     reviewList.map {
@@ -31,8 +35,13 @@ class RestaurantReviewListViewModel(
                             restaurantTitle = restaurantTitle,
                             title = it.title,
                             content = it.content,
-                            grade = it.rating.toInt(),
-                            thumbnailImageUri = it.imageUrlList?.first()
+                            grade = it.rating,
+                            thumbnailImageUri =
+                            if (it.imageUrlList.isNullOrEmpty()) {
+                                null
+                            } else {
+                                it.imageUrlList.first()
+                            }
                         )
                     }
                 )

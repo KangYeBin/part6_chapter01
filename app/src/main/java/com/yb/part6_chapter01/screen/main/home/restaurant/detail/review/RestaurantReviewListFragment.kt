@@ -3,6 +3,8 @@ package com.yb.part6_chapter01.screen.main.home.restaurant.detail.review
 import android.widget.Toast
 import androidx.core.os.bundleOf
 import com.yb.part6_chapter01.databinding.FragmentListBinding
+import com.yb.part6_chapter01.extensions.toGone
+import com.yb.part6_chapter01.extensions.toVisible
 import com.yb.part6_chapter01.model.restaurant.review.RestaurantReviewModel
 import com.yb.part6_chapter01.screen.base.BaseFragment
 import com.yb.part6_chapter01.util.provider.ResourcesProvider
@@ -41,14 +43,18 @@ class RestaurantReviewListFragment :
     override fun observeData() =
         viewModel.reviewStateLiveData.observe(viewLifecycleOwner) { state ->
             when (state) {
-                is RestaurantReviewState.Success -> {
-                    handleSuccess(state)
-                }
-                else -> {}
+                is RestaurantReviewState.Loading -> handleLoading()
+                is RestaurantReviewState.Success -> handleSuccess(state)
+                else -> Unit
             }
         }
 
+    private fun handleLoading() {
+        binding.progressBar.toVisible()
+    }
+
     private fun handleSuccess(state: RestaurantReviewState.Success) {
+        binding.progressBar.toGone()
         adapter.submitList(state.reviewList)
     }
 

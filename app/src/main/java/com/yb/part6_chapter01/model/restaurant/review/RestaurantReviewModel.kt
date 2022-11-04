@@ -10,6 +10,6 @@ data class RestaurantReviewModel(
     val restaurantTitle: String,
     val title: String,
     val content: String,
-    val grade: Int,
+    val grade: Float,
     val thumbnailImageUri: String? = null,
 ) : Model(id, type)
