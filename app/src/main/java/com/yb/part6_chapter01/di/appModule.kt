@@ -1,13 +1,17 @@
 package com.yb.part6_chapter01.di
 
+import android.net.Uri
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.FirebaseStorage
 import com.yb.part6_chapter01.data.entity.LocationLatLngEntity
 import com.yb.part6_chapter01.data.entity.MapSearchInfoEntity
 import com.yb.part6_chapter01.data.entity.RestaurantEntity
 import com.yb.part6_chapter01.data.entity.RestaurantFoodEntity
 import com.yb.part6_chapter01.data.preference.PreferenceManager
+import com.yb.part6_chapter01.data.repository.gallery.DefaultGalleryRepository
+import com.yb.part6_chapter01.data.repository.gallery.GalleryRepository
 import com.yb.part6_chapter01.data.repository.map.DefaultMapRepository
 import com.yb.part6_chapter01.data.repository.map.MapRepository
 import com.yb.part6_chapter01.data.repository.order.DefaultOrderRepository
@@ -31,6 +35,9 @@ import com.yb.part6_chapter01.screen.main.my.MyViewModel
 import com.yb.part6_chapter01.screen.mylocation.MyLocationViewModel
 import com.yb.part6_chapter01.screen.order.OrderMenuListViewModel
 import com.yb.part6_chapter01.screen.review.AddRestaurantReviewViewModel
+import com.yb.part6_chapter01.screen.review.camera.CameraViewModel
+import com.yb.part6_chapter01.screen.review.camera.preview.PreviewImageListViewModel
+import com.yb.part6_chapter01.screen.review.gallery.GalleryViewModel
 import com.yb.part6_chapter01.util.event.MenuChangeEventBus
 import com.yb.part6_chapter01.util.provider.DefaultResourcesProvider
 import com.yb.part6_chapter01.util.provider.ResourcesProvider
@@ -60,15 +67,19 @@ val appModule = module {
     }
     viewModel { (restaurantTitle: String) -> RestaurantReviewListViewModel(restaurantTitle, get()) }
     viewModel { OrderMenuListViewModel(get(), get()) }
-    viewModel { AddRestaurantReviewViewModel() }
+    viewModel { (uriList: List<Uri>)-> AddRestaurantReviewViewModel(uriList, get()) }
+    viewModel { GalleryViewModel(get()) }
+    viewModel { CameraViewModel() }
+    viewModel { (imageUriList: List<Uri>) -> PreviewImageListViewModel(imageUriList) }
 
     // Repository
     single<RestaurantRepository> { DefaultRestaurantRepository(get(), get(), get()) }
     single<MapRepository> { DefaultMapRepository(get(), get()) }
     single<UserRepository> { DefaultUserRepository(get(), get(), get()) }
     single<RestaurantFoodRepository> { DefaultRestaurantFoodRepository(get(), get(), get()) }
-    single<RestaurantReviewRepository> { DefaultRestaurantReviewRepository(get()) }
+    single<RestaurantReviewRepository> { DefaultRestaurantReviewRepository(get(), get(), get()) }
     single<OrderRepository> { DefaultOrderRepository(get(), get()) }
+    single<GalleryRepository> { DefaultGalleryRepository(androidApplication(), get()) }
 
     single { provideDB(androidApplication()) }
     single { provideLocationDao(get()) }
@@ -95,4 +106,5 @@ val appModule = module {
 
     single { Firebase.firestore }
     single { FirebaseAuth.getInstance() }
+    single { FirebaseStorage.getInstance() }
 }

@@ -13,8 +13,11 @@ import com.yb.part6_chapter01.widget.adapter.viewholder.ModelViewHolder
 import com.yb.part6_chapter01.widget.adapter.viewholder.food.FoodMenuViewHolder
 import com.yb.part6_chapter01.widget.adapter.viewholder.order.OrderMenuViewHolder
 import com.yb.part6_chapter01.widget.adapter.viewholder.order.OrderViewHolder
+import com.yb.part6_chapter01.widget.adapter.viewholder.gallery.GalleryPhotoItemViewHolder
+import com.yb.part6_chapter01.widget.adapter.viewholder.preview.PreviewImageViewHolder
 import com.yb.part6_chapter01.widget.adapter.viewholder.restaurant.LikeRestaurantViewHolder
 import com.yb.part6_chapter01.widget.adapter.viewholder.restaurant.RestaurantViewHolder
+import com.yb.part6_chapter01.widget.adapter.viewholder.review.PhotoItemViewHolder
 import com.yb.part6_chapter01.widget.adapter.viewholder.review.RestaurantReviewViewHolder
 
 object ModelViewHolderMapper {
@@ -61,6 +64,21 @@ object ModelViewHolderMapper {
             )
             CellType.ORDER_CELL -> OrderViewHolder(
                 ViewholderOrderBinding.inflate(inflater, parent, false),
+                viewModel,
+                resourcesProvider
+            )
+            CellType.GALLERY_PHOTO_CELL -> GalleryPhotoItemViewHolder(
+                ViewholderGalleryPhotoItemBinding.inflate(inflater, parent, false),
+                viewModel,
+                resourcesProvider
+            )
+            CellType.PREVIEW_IMAGE_CELL -> PreviewImageViewHolder(
+                ViewholderPreviewImageBinding.inflate(inflater, parent, false),
+                viewModel,
+                resourcesProvider
+            )
+            CellType.PHOTO_CELL -> PhotoItemViewHolder(
+                ViewholderPhotoItemBinding.inflate(inflater, parent, false),
                 viewModel,
                 resourcesProvider
             )

@@ -6,6 +6,7 @@ import com.yb.part6_chapter01.model.restaurant.order.OrderModel
 import com.yb.part6_chapter01.screen.base.BaseViewModel
 import com.yb.part6_chapter01.util.provider.ResourcesProvider
 import com.yb.part6_chapter01.widget.adapter.listener.AdapterListener
+import com.yb.part6_chapter01.widget.adapter.listener.order.OrderListListener
 import com.yb.part6_chapter01.widget.adapter.viewholder.ModelViewHolder
 
 class OrderViewHolder(
@@ -16,7 +17,16 @@ class OrderViewHolder(
 
     override fun reset() = Unit
 
-    override fun bindViews(model: OrderModel, adapterListener: AdapterListener) = Unit
+    override fun bindViews(model: OrderModel, adapterListener: AdapterListener) {
+        if (adapterListener is OrderListListener) {
+            binding.root.setOnClickListener {
+                adapterListener.writeRestaurantReview(
+                    model.restaurantTitle,
+                    model.orderId
+                )
+            }
+        }
+    }
 
     override fun bindData(model: OrderModel) = with(binding) {
         super.bindData(model)

@@ -7,8 +7,9 @@ import com.yb.part6_chapter01.model.Model
 data class RestaurantReviewModel(
     override val id: Long,
     override val type: CellType = CellType.REVIEW_CELL,
+    val restaurantTitle: String,
     val title: String,
-    val description: String,
+    val content: String,
     val grade: Int,
-    val thumbnailImageUri: Uri? = null,
+    val thumbnailImageUri: String? = null,
 ) : Model(id, type)

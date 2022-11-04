@@ -11,7 +11,7 @@ import com.yb.part6_chapter01.widget.adapter.listener.AdapterListener
 import com.yb.part6_chapter01.widget.adapter.viewholder.ModelViewHolder
 
 class ModelRecyclerAdapter<M : Model, VM : BaseViewModel>(
-    private var modelList: List<Model>,
+    var modelList: List<Model>,
     private val viewModel: VM,
     private val resourcesProvider: ResourcesProvider,
     private val adapterListener: AdapterListener,

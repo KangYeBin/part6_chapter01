@@ -15,9 +15,11 @@ import com.yb.part6_chapter01.extensions.toGone
 import com.yb.part6_chapter01.extensions.toVisible
 import com.yb.part6_chapter01.model.restaurant.order.OrderModel
 import com.yb.part6_chapter01.screen.base.BaseFragment
+import com.yb.part6_chapter01.screen.review.AddRestaurantReviewActivity
 import com.yb.part6_chapter01.util.provider.ResourcesProvider
 import com.yb.part6_chapter01.widget.adapter.ModelRecyclerAdapter
 import com.yb.part6_chapter01.widget.adapter.listener.AdapterListener
+import com.yb.part6_chapter01.widget.adapter.listener.order.OrderListListener
 import org.koin.android.ext.android.inject
 import org.koin.android.viewmodel.ext.android.viewModel
 
@@ -58,11 +60,22 @@ class MyFragment : BaseFragment<MyViewModel, FragmentMyBinding>() {
             listOf(),
             viewModel,
             resourcesProvider,
-            object : AdapterListener {}
+            object : OrderListListener {
+                override fun writeRestaurantReview(restaurantTitle: String, orderId: String) {
+                    startActivity(
+                        AddRestaurantReviewActivity.newIntent(
+                            requireContext(),
+                            restaurantTitle,
+                            orderId
+                        )
+                    )
+                }
+            }
         )
     }
 
     override fun initViews() = with(binding) {
+        viewModel.fetchData()
         recyclerView.adapter = adapter
         loginButton.setOnClickListener {
             signInGoogle()

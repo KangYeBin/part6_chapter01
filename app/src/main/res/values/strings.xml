@@ -47,4 +47,9 @@
     <string name="제목">제목</string>
     <string name="content">내용</string>
     <string name="add_restaurant_review">%s 리뷰 등록</string>
+    <string name="confirm">확인</string>
+    <string name="capture">촬영</string>
+    <string name="flash">플래시</string>
+    <string name="image_preview">이미지 미리보기</string>
+    <string name="delete">삭제</string>
 </resources>
