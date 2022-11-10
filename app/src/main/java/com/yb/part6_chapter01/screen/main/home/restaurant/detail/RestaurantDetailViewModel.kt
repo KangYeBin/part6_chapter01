@@ -69,6 +69,7 @@ class RestaurantDetailViewModel(
                     )
                 }
             }
+            else -> Unit
         }
     }
 

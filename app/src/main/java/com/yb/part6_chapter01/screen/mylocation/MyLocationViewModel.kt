@@ -48,6 +48,7 @@ class MyLocationViewModel(
                     data.mapSearchInfoEntity
                 )
             }
+            else -> Unit
         }
     }
 }

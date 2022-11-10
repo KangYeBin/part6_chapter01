@@ -47,6 +47,7 @@ class HomeViewModel(
     fun getMapSearchInfo(): MapSearchInfoEntity? {
         when (val data = homeStateLiveData.value) {
             is HomeState.Success -> return data.mapSearchInfo
+            else -> Unit
         }
         return null
     }
