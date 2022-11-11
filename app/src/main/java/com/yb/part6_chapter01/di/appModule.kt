@@ -66,7 +66,7 @@ val appModule = module {
         RestaurantMenuListViewModel(restaurantId, foodEntityList, get())
     }
     viewModel { (restaurantTitle: String) -> RestaurantReviewListViewModel(restaurantTitle, get()) }
-    viewModel { OrderMenuListViewModel(get(), get()) }
+    viewModel { (firebaseAuth: FirebaseAuth) -> OrderMenuListViewModel(firebaseAuth, get(), get()) }
     viewModel { (uriList: List<Uri>)-> AddRestaurantReviewViewModel(uriList, get()) }
     viewModel { GalleryViewModel(get()) }
     viewModel { CameraViewModel() }
